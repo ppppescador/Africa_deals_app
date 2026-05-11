@@ -20,4 +20,4 @@ msoffcrypto-tool
 folium
 streamlit-folium
 plotly
-groc
+groq
