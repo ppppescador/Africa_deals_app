@@ -86,7 +86,7 @@ with st.sidebar:
     uploaded_file = st.file_uploader("Upload Excel database", type=["xlsx"])
     password      = st.text_input("File password", type="password")
     st.divider()
-    st.caption("Upload a new Excel file each month to refresh all analyses automatically. Actual file password : V7#qL9!zR2@xM4^tK8$wP1&cY6*")
+    st.caption("Upload a new Excel file each month to refresh all analyses automatically. Actual file password : B2$wF8^qL5#t")
 
 st.markdown('<div class="main-header">🌍 African Startup Funding Report</div>',
             unsafe_allow_html=True)
