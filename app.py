@@ -23,6 +23,16 @@ from analysis import (
     plot_south_africa_investors,
     plot_fundraising_window,
     plot_knife_portfolio, plot_knife_similar_deals,
+    get_sa_data,
+    plot_sa_overview,
+    plot_sa_sectors,
+    plot_sa_tickets,
+    plot_investor_profile,
+    get_investor_portfolio_table,
+    plot_coinvestment_network,
+    plot_sa_temporal,
+    plot_sa_syndicates,
+    plot_sa_positioning_matrix,
 )
 st.set_page_config(page_title="Africa deals Dashboard", layout="wide")
 
@@ -158,6 +168,7 @@ tabs = st.tabs([
     "Funding Dynamics",
     "Founders",
     "Investors",
+    "South Africa Deep Dive",
     "Bonus - Predictions",
 ])
 
@@ -436,9 +447,141 @@ with tabs[5]:
         st.pyplot(fig, use_container_width=True)
 
 # ════════════════════════════════════════════════════════════
-# TAB 7 — INVESTMENT INTELLIGENCE
+# TAB 7 — SOUTH AFRICA DEEP DIVE
 # ════════════════════════════════════════════════════════════
 with tabs[6]:
+
+    # Préparer les données SA une seule fois
+    df_sa, sa_stats = get_sa_data(df_inv_final)
+
+    st.markdown(f"""
+    _South Africa hosts the most developed domestic venture capital market on the continent,
+    with **{sa_stats['Investor'].nunique()} active investors** tracked between
+    {df_sa['Year'].min()} and {df_sa['Year'].max()},
+    deploying a total of **${df_sa['Amount_clean'].sum():,.0f}M** across
+    **{len(df_sa):,} deals**. This section provides a complete statistical portrait
+    of the SA investor ecosystem._
+    """)
+
+    # ── Bloc 1 : Overview ──
+    st.markdown('<div class="section-header">1. Ecosystem Overview</div>',
+                unsafe_allow_html=True)
+    st.pyplot(plot_sa_overview(df_sa, sa_stats, df_inv_final))
+
+    # ── Bloc 2 : Secteurs ──
+    st.markdown('<div class="section-header">2. Sector Analysis</div>',
+                unsafe_allow_html=True)
+    st.pyplot(plot_sa_sectors(df_sa))
+
+    # ── Bloc 3 : Tickets ──
+    st.markdown('<div class="section-header">3. Ticket Size Analysis</div>',
+                unsafe_allow_html=True)
+    st.pyplot(plot_sa_tickets(df_sa, sa_stats))
+
+    # ── Bloc 4 : Profil individuel ──
+    st.markdown('<div class="section-header">4. Individual Investor Profile</div>',
+                unsafe_allow_html=True)
+    st.markdown("_Select an investor to see their complete profile, portfolio, and co-investment patterns._")
+
+    investor_list = sorted(sa_stats['Investor'].tolist())
+    selected_investor = st.selectbox(
+        "Select an investor", investor_list, key='sa_investor_select'
+    )
+
+    if selected_investor:
+        col_left, col_right = st.columns([2, 1])
+
+        with col_left:
+            st.pyplot(plot_investor_profile(selected_investor, df_sa, sa_stats))
+
+        with col_right:
+            st.markdown(f"**📋 Full Portfolio — {selected_investor}**")
+            portfolio = get_investor_portfolio_table(selected_investor, df_sa)
+            if not portfolio.empty:
+                st.dataframe(portfolio, use_container_width=True, height=400)
+                total = portfolio['Amount ($M)'].sum()
+                st.metric("Total deployed", f"${total:.1f}M")
+                st.metric("Total deals", len(portfolio))
+            else:
+                st.info("No portfolio data available.")
+
+    # ── Bloc 5 : Galaxie réseau ──
+    st.markdown('<div class="section-header">5. Co-Investment Galaxy</div>',
+                unsafe_allow_html=True)
+    st.markdown("_Network of co-investments between SA investors. Node size = deal count. Edge thickness = co-investment frequency. Colors = detected communities._")
+
+    min_shared = st.slider(
+        "Minimum shared deals to show a connection",
+        min_value=1, max_value=5, value=2, key='sa_network_slider'
+    )
+    with st.spinner("Building co-investment network..."):
+        st.pyplot(plot_coinvestment_network(df_sa, min_shared=min_shared))
+
+    # ── Bloc 6 : Dynamiques temporelles ──
+    st.markdown('<div class="section-header">6. Temporal Dynamics</div>',
+                unsafe_allow_html=True)
+    st.markdown("_Evolution of investor activity over time: new entrants, dormant players, seasonal patterns._")
+    st.pyplot(plot_sa_temporal(df_sa))
+
+    # ── Bloc 7 : Syndicats ──
+    st.markdown('<div class="section-header">7. Syndication Patterns</div>',
+                unsafe_allow_html=True)
+    st.markdown("_Top co-investment pairs and triads, and classification of investors by syndication style._")
+    st.pyplot(plot_sa_syndicates(df_sa))
+
+    # ── Bloc 8 : Matrice positionnement ──
+    st.markdown('<div class="section-header">8. Investor Positioning Matrix</div>',
+                unsafe_allow_html=True)
+    st.markdown("_Each bubble is an investor. X axis = median ticket size. Y axis = number of deals. Bubble size = total capital deployed. Quadrant lines show ecosystem medians._")
+
+    highlight = st.selectbox(
+        "Highlight a specific investor (optional)",
+        ["None"] + investor_list,
+        key='sa_highlight_select'
+    )
+    hi_inv = None if highlight == "None" else highlight
+    st.pyplot(plot_sa_positioning_matrix(df_sa, sa_stats, highlight_investor=hi_inv))
+
+    # ── Table récap globale ──
+    st.markdown('<div class="section-header">9. Complete Investor Rankings</div>',
+                unsafe_allow_html=True)
+
+    rank_tab1, rank_tab2, rank_tab3 = st.tabs([
+        "By Deal Count", "By Capital Deployed", "By Ticket Bracket"
+    ])
+
+    with rank_tab1:
+        st.dataframe(
+            sa_stats.sort_values('Nb_Deals', ascending=False)
+            [['Investor','Nb_Deals','Total_Deployed','Median_Ticket','Ticket_Bracket']]
+            .round(1).reset_index(drop=True),
+            use_container_width=True
+        )
+
+    with rank_tab2:
+        st.dataframe(
+            sa_stats[sa_stats['Total_Deployed']>0]
+            .sort_values('Total_Deployed', ascending=False)
+            [['Investor','Total_Deployed','Nb_Deals','Median_Ticket','Ticket_Bracket']]
+            .round(1).reset_index(drop=True),
+            use_container_width=True
+        )
+
+    with rank_tab3:
+        bracket_order = ['< $1M','$1M–$5M','$5M–$15M','$15M–$50M','$50M+','Undisclosed']
+        for bracket in bracket_order:
+            subset = sa_stats[sa_stats['Ticket_Bracket']==bracket].sort_values('Nb_Deals', ascending=False)
+            if not subset.empty:
+                st.markdown(f"**{bracket}** — {len(subset)} investors")
+                st.dataframe(
+                    subset[['Investor','Nb_Deals','Total_Deployed','Median_Ticket','Avg_Ticket']]
+                    .round(1).reset_index(drop=True),
+                    use_container_width=True
+                )
+# ════════════════════════════════════════════════════════════
+# TAB 8 — INVESTMENT INTELLIGENCE
+# ════════════════════════════════════════════════════════════
+with tabs[7]:
     
 
     st.markdown('<div class="section-header">7.1 Optimal Fundraising Window</div>',
