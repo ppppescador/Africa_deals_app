@@ -21,3 +21,6 @@ folium
 streamlit-folium
 plotly
 groq
+pyvis
+networkx
+streamlit-components
