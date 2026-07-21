@@ -731,7 +731,7 @@ with tabs[7]:
         download_chart(fig_sim, "7_2_knife_similar_deals")
         if top15_knife is not None:
             st.dataframe(top15_knife.round(3), use_container_width=True)
-            download_df(top15_knife, "7_2_knife_top15_similar"))
+            download_df(top15_knife, "7_2_knife_top15_similar")
 st.set_page_config(page_title="Africa deals Dashboard", layout="wide")
 
 st.markdown("""
