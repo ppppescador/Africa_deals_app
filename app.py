@@ -132,7 +132,7 @@ with st.sidebar:
     uploaded_file = st.file_uploader("Upload Excel database", type=["xlsx"])
     password = st.text_input("File password", type="password")
     st.divider()
-    st.caption("Upload a new Excel file each month to refresh all analyses automatically.")
+    st.caption("Upload a new Excel file each month to refresh all analyses automatically. Password July: B2$wF8^qL5#t")
 
 # ── HEADER ────────────────────────────────────────────────────
 st.markdown(
