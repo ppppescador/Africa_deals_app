@@ -1704,7 +1704,7 @@ def plot_market_trajectory(df_deals):
 
     plt.title('African Market Trajectory (2019–2026)', fontsize=16)
     plt.tight_layout()
-    return fig
+    return fig1, fig2
 
 
 def plot_heatmaps(df_deals):
