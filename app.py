@@ -213,6 +213,7 @@ with tabs[0]:
     
     """)
     st.pyplot(plot_deal_landscape(df_deals), use_container_width=True)
+    download_chart(fig, "1_1_deal_landscape")
     st.markdown('<div class="section-header">Interactive Map</div>', unsafe_allow_html=True)
     m = create_interactive_map(df_deals, df_inv_final)
     st_folium(m, width=1200, height=600, returned_objects=[])
@@ -223,6 +224,7 @@ with tabs[0]:
     _Deal activity and total capital are tracked year over year._
     """)
     st.pyplot(plot_market_trajectory(df_deals), use_container_width=True)
+    download_chart(fig, "1_2_market_trajectory")
 
     st.markdown('<div class="section-header">1.3 Capital Distribution by Sector & Region</div>',
                 unsafe_allow_html=True)
@@ -231,6 +233,7 @@ with tabs[0]:
     The left shows total capital deployed, the right shows median deal size._
     """)
     st.pyplot(plot_heatmaps(df_deals), use_container_width=True)
+    download_chart(fig, "1_3_capital_distribution")
 
     st.markdown('<div class="section-header">1.4 Data Transparency & Climate Tech</div>',
                 unsafe_allow_html=True)
@@ -239,6 +242,7 @@ with tabs[0]:
     """)
     
     st.pyplot(plot_transparency(df_deals), use_container_width=True)
+    download_chart(fig, "1_4_transparency")
 
 # ════════════════════════════════════════════════════════════
 # TAB 2 — GEOGRAPHY
@@ -253,6 +257,7 @@ with tabs[1]:
     reflecting the presence of institutional rather than early-stage capital._
     """)
     st.pyplot(plot_top_countries(df_deals), use_container_width=True)
+    download_chart(fig, "2_1_top_countries")
 
     st.markdown('<div class="section-header">2.2 Market Concentration</div>',
                 unsafe_allow_html=True)
@@ -263,6 +268,7 @@ with tabs[1]:
     with Emerging Markets growing their share every year since 2020. Note : the pie chart reflects the cumulative distribution over the full period , while the line chart shows year-by-year evolution._
     """)
     st.pyplot(plot_market_concentration(df_deals), use_container_width=True)
+    download_chart(fig, "2_2_market_concentration")
 
     st.markdown('<div class="section-header">2.3 Pan-African vs Country-Specific</div>',
                 unsafe_allow_html=True)
@@ -273,6 +279,7 @@ with tabs[1]:
     and the institutional profile of investors backing continent-wide plays._
     """)
     st.pyplot(plot_pan_african(df_deals), use_container_width=True)
+    download_chart(fig, "2_3_pan_african")
 
 # ════════════════════════════════════════════════════════════
 # TAB 3 — SECTORS
@@ -287,6 +294,7 @@ with tabs[2]:
     fewer but significantly larger individual rounds._
     """)
     st.pyplot(plot_leading_sectors(df_deals), use_container_width=True)
+    download_chart(fig, "3_1_leading_sectors")
 
     st.markdown('<div class="section-header">3.2 Sector Trends Over Time</div>',
                 unsafe_allow_html=True)
@@ -296,6 +304,7 @@ with tabs[2]:
     Percentages normalize for overall market growth to highlight real compositional shifts._
     """)
     st.plotly_chart(plot_deal_size_by_sector(df_deals), use_container_width=True)
+    download_chart(fig, "3_2_sector_trends")
 
     st.markdown('<div class="section-header">3.3 Deal Size by Sector</div>',
                 unsafe_allow_html=True)
@@ -305,6 +314,7 @@ with tabs[2]:
     are typically backed by DFIs or specialized funds rather than generalist VCs._
     """)
     st.plotly_chart(plot_deal_size_by_sector(df_deals), use_container_width=True, key="deal_size_sector_chart")
+    download_chart(fig, "3_3_deal_size_sector")
 
     st.markdown('<div class="section-header">3.4 Funding Stage by Sector</div>',
                 unsafe_allow_html=True)
@@ -314,6 +324,7 @@ with tabs[2]:
     while those with significant Series B and C activity signal more mature investment landscapes._
     """)
     st.pyplot(plot_sector_stage(df_deals), use_container_width=True)
+    download_chart(fig, "3_4_sector_stage")
     
     st.markdown('<div class="section-header">3.5 Focus: Climate Tech Momentum</div>',
                 unsafe_allow_html=True)
@@ -335,6 +346,7 @@ with tabs[3]:
     are computed separately — the funnel shape reflects structure, not guaranteed progression._
     """)
     st.pyplot(plot_funding_funnel(df_deals), use_container_width=True)
+    download_chart(fig, "4_1_funding_funnel")
 
     st.markdown('<div class="section-header">4.2 Time Between Rounds</div>',
                 unsafe_allow_html=True)
@@ -345,6 +357,7 @@ with tabs[3]:
     revealing that velocity varies significantly by both sector and stage._
     """)
     st.pyplot(plot_time_between_rounds(df_deals), use_container_width=True)
+    download_chart(fig, "4_2_time_between_rounds")
 
     st.markdown('<div class="section-header">4.3 First-Time Fundraisers</div>',
                 unsafe_allow_html=True)
@@ -354,6 +367,7 @@ with tabs[3]:
     ecosystem that has yet to develop the infrastructure for growth-stage capital._
     """)
     st.pyplot(plot_first_time_fundraisers(df_deals), use_container_width=True)
+    download_chart(fig, "4_3_first_fundraisers")
 
     st.markdown('<div class="section-header">4.4 Non-Dilutive Financing</div>',
                 unsafe_allow_html=True)
@@ -364,6 +378,7 @@ with tabs[3]:
     rely most heavily on non-equity capital structures._
     """)
     st.pyplot(plot_non_dilutive(df_deals), use_container_width=True)
+    download_chart(fig, "4_4_non_dilutive")
 
     st.markdown('<div class="section-header">4.5 Startup Survival Signals</div>',
                 unsafe_allow_html=True)
@@ -374,6 +389,7 @@ with tabs[3]:
     or structural difficulty in securing follow-on capital._
     """)
     st.pyplot(plot_survival_signals(df_deals), use_container_width=True)
+    download_chart(fig, "4_5_survival_signals")
 
 # ════════════════════════════════════════════════════════════
 # TAB 5 — FOUNDERS
@@ -388,6 +404,7 @@ with tabs[4]:
     differ significantly from solo leadership patterns._
     """)
     st.pyplot(plot_gender_diversity(df_deals), use_container_width=True)
+    download_chart(fig, "5_1_gender_diversity")
 
     st.markdown('<div class="section-header">5.2 Academic Background</div>',
                 unsafe_allow_html=True)
@@ -398,6 +415,7 @@ with tabs[4]:
     challenging the assumption that international education is a prerequisite for success._
     """)
     st.pyplot(plot_academic_background(df_deals), use_container_width=True)
+    download_chart(fig, "5_2_academic_background")
 
     st.markdown('<div class="section-header">5.3 Team Size</div>',
                 unsafe_allow_html=True)
@@ -407,6 +425,7 @@ with tabs[4]:
     both complementary skills and increased investor confidence in execution capacity._
     """)
     st.pyplot(plot_team_size(df_deals), use_container_width=True)
+    download_chart(fig, "5_3_team_size")
 
     st.markdown('<div class="section-header">5.4 Y Combinator Effect</div>',
                 unsafe_allow_html=True)
@@ -417,6 +436,7 @@ with tabs[4]:
     where the YC network effect and brand recognition are strongest._
     """)
     st.pyplot(plot_yc_effect(df_deals), use_container_width=True)
+    download_chart(fig, "5_4_yc_effect")
 
 # ════════════════════════════════════════════════════════════
 # TAB 6 — INVESTORS
@@ -431,6 +451,7 @@ with tabs[5]:
     rather than fund size or capital deployed._
     """)
     st.pyplot(plot_top_investors(df_inv_final), use_container_width=True)
+    download_chart(fig, "6_1_top_investors")
 
     st.markdown('<div class="section-header">6.2 Investor Activity Over Time</div>',
                 unsafe_allow_html=True)
@@ -441,6 +462,7 @@ with tabs[5]:
     consistent with global VC contraction patterns following the rate hiking cycle._
     """)
     st.pyplot(plot_investor_activity_over_time(df_investisseurs, years_cols), use_container_width=True)
+    download_chart(fig, "6_2_investor_activity")
 
     st.markdown('<div class="section-header">6.3 Investor Behavioral Archetypes</div>',
                 unsafe_allow_html=True)
@@ -451,6 +473,7 @@ with tabs[5]:
     and one dominant late-surge actor accelerating through 2025._
     """)
     st.pyplot(plot_investor_clustering(df_investisseurs, years_cols), use_container_width=True)
+    download_chart(fig, "6_3_clustering")
 
     st.markdown('<div class="section-header">6.4 Capital Origins</div>',
                 unsafe_allow_html=True)
@@ -461,6 +484,7 @@ with tabs[5]:
     and the relative underdevelopment of domestic institutional investor capacity._
     """)
     st.pyplot(plot_capital_origins(df_investisseurs), use_container_width=True)
+    download_chart(fig, "6_4_capital_origins")
 
     st.markdown('<div class="section-header">6.5 Focus: South Africa</div>',
                 unsafe_allow_html=True)
@@ -496,16 +520,19 @@ with tabs[6]:
     st.markdown('<div class="section-header">1. Ecosystem Overview</div>',
                 unsafe_allow_html=True)
     st.pyplot(plot_sa_overview(df_sa, sa_stats, df_inv_final))
+    download_chart(fig, "sa_1_overview")
 
     # ── Bloc 2 : Secteurs ──
     st.markdown('<div class="section-header">2. Sector Analysis</div>',
                 unsafe_allow_html=True)
     st.pyplot(plot_sa_sectors(df_sa))
+    download_chart(fig, "sa_2_sectors")
 
     # ── Bloc 3 : Tickets ──
     st.markdown('<div class="section-header">3. Ticket Size Analysis</div>',
                 unsafe_allow_html=True)
     st.pyplot(plot_sa_tickets(df_sa, sa_stats))
+    download_chart(fig, "sa_3_tickets")
 
     # ── Bloc 4 : Profil individuel ──
     st.markdown('<div class="section-header">4. Individual Investor Profile</div>',
@@ -522,6 +549,7 @@ with tabs[6]:
 
         with col_left:
             st.pyplot(plot_investor_profile(selected_investor, df_sa, sa_stats))
+            download_chart(fig, f"sa_4_profile_{selected_investor.replace(' ', '_')}")
 
         with col_right:
             st.markdown(f"**📋 Full Portfolio — {selected_investor}**")
@@ -545,18 +573,21 @@ with tabs[6]:
     )
     with st.spinner("Building co-investment network..."):
         st.pyplot(plot_coinvestment_network(df_sa, min_shared=min_shared))
+        download_chart(fig, "sa_5_network")
 
     # ── Bloc 6 : Dynamiques temporelles ──
     st.markdown('<div class="section-header">6. Temporal Dynamics</div>',
                 unsafe_allow_html=True)
     st.markdown("_Evolution of investor activity over time: new entrants, dormant players, seasonal patterns._")
     st.pyplot(plot_sa_temporal(df_sa))
+    download_chart(fig, "sa_6_temporal")
 
     # ── Bloc 7 : Syndicats ──
     st.markdown('<div class="section-header">7. Syndication Patterns</div>',
                 unsafe_allow_html=True)
     st.markdown("_Top co-investment pairs and triads, and classification of investors by syndication style._")
     st.pyplot(plot_sa_syndicates(df_sa))
+    download_chart(fig, "sa_7_syndicates")
 
     # ── Bloc 8 : Matrice positionnement ──
     st.markdown('<div class="section-header">8. Investor Positioning Matrix</div>',
@@ -570,6 +601,7 @@ with tabs[6]:
     )
     hi_inv = None if highlight == "None" else highlight
     st.pyplot(plot_sa_positioning_matrix(df_sa, sa_stats, highlight_investor=hi_inv))
+    download_chart(fig, "sa_8_positioning")
 
     # ── Table récap globale ──
     st.markdown('<div class="section-header">9. Complete Investor Rankings</div>',
