@@ -3,6 +3,35 @@ import plotly.express as px
 import pandas as pd
 from groq import Groq
 import io
+def download_chart(fig, filename):
+    """Bouton pour télécharger un graphique matplotlib en PNG ou PDF."""
+    col1, col2 = st.columns(2)
+    
+    # PNG
+    buf_png = io.BytesIO()
+    fig.savefig(buf_png, format='png', dpi=300, bbox_inches='tight',
+                facecolor='white')
+    buf_png.seek(0)
+    col1.download_button(
+        label="⬇️ PNG",
+        data=buf_png,
+        file_name=f"{filename}.png",
+        mime="image/png",
+        key=f"png_{filename}"
+    )
+    
+    # PDF
+    buf_pdf = io.BytesIO()
+    fig.savefig(buf_pdf, format='pdf', bbox_inches='tight',
+                facecolor='white')
+    buf_pdf.seek(0)
+    col2.download_button(
+        label="⬇️ PDF",
+        data=buf_pdf,
+        file_name=f"{filename}.pdf",
+        mime="application/pdf",
+        key=f"pdf_{filename}"
+    )
 from streamlit_folium import st_folium
 from analysis import (
     load_and_clean, compute_summary_stats, create_interactive_map,
